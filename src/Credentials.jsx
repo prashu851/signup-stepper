@@ -27,7 +27,7 @@ const Credentials = ({email, password, handleChange, handleBlur, errors, touched
                     onChange={handleChange} 
                     onBlur={handleBlur} 
                 />
-                <span>atleast 8 characters, 1 lowercase, 1 uppercase and 1 special character</span>
+                <span>atleast 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 special character</span>
                 {touched.password && errors.password?<small>{errors.password}</small>:''}
             </div>
         </>

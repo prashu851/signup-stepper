@@ -25,9 +25,9 @@ const Address = ({streetName,state: selectedState, city: selectedCity, pinCode,h
         <div className="user-input">
             <label htmlFor="state">State</label>
             <select className="input" name="state" onChange={handleChange}>
-            {isEmpty(selectedState) ? <option>--Select State--</option> : ''}
-            {Object.keys(states).map((state)=>
-                <option selected={state === selectedState} value={state}>{state}</option>
+                {isEmpty(selectedState) ? <option>--Select State--</option> : ''}
+                {Object.keys(states).map((state)=>
+                    <option selected={state === selectedState} value={state}>{state}</option>
                 )}               
             </select> 
         </div>

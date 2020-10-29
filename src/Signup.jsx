@@ -9,13 +9,15 @@ import PersonalInfo from './PersonalInfo'
 import Address from './Address'
 import validate from './SignupValidator'
 import { isEmpty } from 'lodash';
+import Button from './components/Button';
 
-function Signup(){
+const Signup = () => {
     const handleSubmit = (values) => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         alert(JSON.stringify(values, null, 2));
     }
 
+    const [activeStep, setActiveStep] = useState(0);
     const formik = useFormik({
         initialValues: {
           email: '',
@@ -31,8 +33,7 @@ function Signup(){
         validate:validate,
         onSubmit: handleSubmit
     });
-    const [activeStep, setActiveStep] = React.useState(0);
-    
+ 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -60,13 +61,15 @@ function Signup(){
             return '';
         }
         return <div className="nav-btns">
-            <button className="nav-btn" onClick={handleBack} disabled={activeStep === 0}>Previous</button>
+            <Button onClick={handleBack} disabled={activeStep === 0} buttonText="Previous"/>
             {activeStep === 2
-            ? <button className="nav-btn" onClick={formik.handleSubmit}>Submit</button> 
-            : <button className="nav-btn" 
+            ? <Button onClick={formik.handleSubmit} buttonText="Submit"/> 
+            : <Button
                 onClick={handleNext} 
                 disabled={isEmpty(formik.errors) && formik.touched.email && formik.touched.password ? false : true}
-                >Next</button>}
+                buttonText="Next"
+            />
+            }
         </div>
     }
     return(
