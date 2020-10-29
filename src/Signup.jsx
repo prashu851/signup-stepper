@@ -83,7 +83,9 @@ function Signup(){
                     ))}
                     </Stepper>
                 </div>
-                { renderForm() }
+                <div className="login-form">
+                    { renderForm() }
+                </div>
                 { renderButtons() }
             </div>
         </div>

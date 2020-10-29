@@ -1,0 +1,15 @@
+.input{
+    width: 20rem;
+    height:3rem;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: #615E5E;
+    color: white;
+}
+.input:last-child{
+    margin-bottom: 1rem;
+}
+.input::placeholder,.input:focus{
+    color: white;
+}

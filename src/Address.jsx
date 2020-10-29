@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import isEmpty from 'lodash/isEmpty'
-import './Address.css'
+import InputField from './components/InputField'
 
 const Address = ({streetName,state,city,pinCode,handleChange}) => {
     const states={
@@ -11,10 +11,16 @@ const Address = ({streetName,state,city,pinCode,handleChange}) => {
     }
 
     return(
-        <div className="login-form">
+        <>
         <div className="user-input">
             <label htmlFor="streetName">Street Name</label>
-            <input className="input" type="text" name="streetName" placeholder="Street Name" value={streetName} onChange={handleChange}/>
+            <InputField 
+                type="text" 
+                name="streetName" 
+                placeholder="Street Name" 
+                value={streetName} 
+                onChange={handleChange}
+            />
         </div>
         <div className="user-input">
             <label htmlFor="state">State</label>
@@ -33,9 +39,15 @@ const Address = ({streetName,state,city,pinCode,handleChange}) => {
         </div>
         <div className="user-input">
             <label htmlFor="pinCode">Pin Code</label>
-            <input className="input" type="text" name="pinCode" placeholder="Pin Code" value={pinCode} onChange={handleChange}/>
+            <InputField 
+                type="text" 
+                name="pinCode" 
+                placeholder="Pin Code" 
+                value={pinCode} 
+                onChange={handleChange}
+            />
         </div>
-    </div>
+    </>
     )
 }
 
