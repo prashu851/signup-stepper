@@ -7,6 +7,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Credentials from './Credentials';
 import PersonalInfo from './PersonalInfo'
 import Address from './Address'
+import validate from './SignupValidator'
+import { isEmpty } from 'lodash';
 
 function Signup(){
     const formik = useFormik({
@@ -15,13 +17,13 @@ function Signup(){
           password:'',
           firstName:'',
           lastName:'',
-          number:null,
+          phoneNumber:'',
           streetName:'',
           state:'',
           city:'',
-          pinCode:null
+          pinCode:''
         },
-        
+        validate:validate,
         onSubmit: values => {
           alert(JSON.stringify(values, null, 2));
         },
@@ -36,12 +38,23 @@ function Signup(){
     }
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        formik.handleSubmit()
-      };
+    };
     
-      const handleBack = () => {
+    const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-      };
+    };
+
+    const renderForm = () => {
+        if(activeStep === 0){
+            return <Credentials email={formik.values.email} password={formik.values.password} handleChange={formik.handleChange} errors={formik.errors} handleBlur={formik.handleBlur} touched={formik.touched} />
+        }
+        else if(activeStep === 1){
+            return <PersonalInfo firstName={formik.values.firstName} lastName={formik.values.lastName} phoneNumber={formik.values.phoneNumber} handleChange={formik.handleChange} />
+        }
+        else{
+            return <Address streetName={formik.values.streetName} state={formik.values.state} city={formik.values.city} pinCode={formik.values.pinCode} handleChange={formik.handleChange} />
+        }
+    }
     return(
         <div className="login-container">
             <div className="login-details">
@@ -56,12 +69,10 @@ function Signup(){
                     ))}
                     </Stepper>
                 </div>
-                <Credentials email={formik.values.email} password={formik.values.password} handleChange={formik.handleChange} />
-                <PersonalInfo firstName={formik.values.firstName} lastName={formik.values.lastName} number={formik.values.number} handleChange={formik.handleChange} />
-                <Address streetName={formik.values.streetName} state={formik.values.state} city={formik.values.city} pinCode={formik.values.pinCode} handleChange={formik.handleChange} />
+                {renderForm()}
                 <div className="nav-btns">
                     <button className="nav-btn" onClick={handleBack} disabled={activeStep === 0}>Previous</button>
-                    <button className="nav-btn" onClick={handleNext} disabled={activeStep === 3}>Next</button>
+                    {activeStep === 2?<button className="nav-btn" onSubmit={formik.handleSubmit}>Submit</button>:<button className="nav-btn" onClick={handleNext} disabled={isEmpty(formik.errors) && formik.touched.email && formik.touched.password?false:true}>Next</button>}
                 </div>
             </div>
         </div>

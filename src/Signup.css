@@ -29,5 +29,9 @@ text-decoration: none;
     outline: none;
     background: #314cb6;
     color: white;
+    cursor: pointer;
+}
+.nav-btn:disabled{
+    background: #c0c0c0;
 }
 

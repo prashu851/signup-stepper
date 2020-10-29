@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import isEmpty from 'lodash/isEmpty'
+import './Address.css'
 
 const Address = ({streetName,state,city,pinCode,handleChange}) => {
     const states={
@@ -18,21 +19,21 @@ const Address = ({streetName,state,city,pinCode,handleChange}) => {
         <div className="user-input">
             <label htmlFor="state">State</label>
             <select className="input" name="state" onChange={handleChange}>
-            <option disabled selected>--Select State--</option>
+            <option disabled >--Select State--</option>
             {Object.keys(states).map((state)=>
-                <option>{state}</option>
+                <option value={state}>{state}</option>
                 )}               
             </select> 
         </div>
         <div className="user-input">
             <label htmlFor="city">City</label>
             <select className="input" name="city" onChange={handleChange}>
-               {isEmpty(state) ? '': states[state].map(city => <option>{city}</option>)}
+               {isEmpty(state) ? '': states[state].map(city => <option value={city}>{city}</option>)}
             </select>  
         </div>
         <div className="user-input">
-            <label htmlFor="pinCode">Street Name</label>
-            <input className="input" type="number" name="pinCode" placeholder="Pin Code" value={pinCode} onChange={handleChange}/>
+            <label htmlFor="pinCode">Pin Code</label>
+            <input className="input" type="text" name="pinCode" placeholder="Pin Code" value={pinCode} onChange={handleChange}/>
         </div>
     </div>
     )
