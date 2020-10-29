@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import isEmpty from 'lodash/isEmpty'
 import InputField from './components/InputField'
 
-const Address = ({streetName,state,city,pinCode,handleChange}) => {
+const Address = ({streetName,state: selectedState, city: selectedCity, pinCode,handleChange}) => {
     const states={
         Telangana:["Hyderabad","Warangal","Secundarabad","Nizamabad"],
         Maharashtra:["Mumbai","Pune","Nagpur","Aurangabad"],
@@ -25,16 +25,18 @@ const Address = ({streetName,state,city,pinCode,handleChange}) => {
         <div className="user-input">
             <label htmlFor="state">State</label>
             <select className="input" name="state" onChange={handleChange}>
-            <option disabled >--Select State--</option>
+            {isEmpty(selectedState) ? <option>--Select State--</option> : ''}
             {Object.keys(states).map((state)=>
-                <option value={state}>{state}</option>
+                <option selected={state === selectedState} value={state}>{state}</option>
                 )}               
             </select> 
         </div>
         <div className="user-input">
             <label htmlFor="city">City</label>
             <select className="input" name="city" onChange={handleChange}>
-               {isEmpty(state) ? '': states[state].map(city => <option value={city}>{city}</option>)}
+               {isEmpty(selectedState) 
+               ? ''
+               : states[selectedState].map(city => <option selected={city === selectedCity} value={city}>{city}</option>)}
             </select>  
         </div>
         <div className="user-input">
