@@ -11,6 +11,11 @@ import validate from './SignupValidator'
 import { isEmpty } from 'lodash';
 
 function Signup(){
+    const handleSubmit = (values) => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        alert(JSON.stringify(values, null, 2));
+    }
+
     const formik = useFormik({
         initialValues: {
           email: '',
@@ -24,18 +29,10 @@ function Signup(){
           pinCode:''
         },
         validate:validate,
-        onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
-        },
+        onSubmit: handleSubmit
     });
-    const [emailError, setEmailError] = useState(false)
     const [activeStep, setActiveStep] = React.useState(0);
     
-    const validateEmail = () =>{
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        const isValidEmail = emailPattern.test('');
-        isValidEmail ? setEmailError(false): setEmailError(true);
-    }
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -45,15 +42,32 @@ function Signup(){
     };
 
     const renderForm = () => {
-        if(activeStep === 0){
+        if(activeStep === 0) {
             return <Credentials email={formik.values.email} password={formik.values.password} handleChange={formik.handleChange} errors={formik.errors} handleBlur={formik.handleBlur} touched={formik.touched} />
-        }
-        else if(activeStep === 1){
+        } else if(activeStep === 1) {
             return <PersonalInfo firstName={formik.values.firstName} lastName={formik.values.lastName} phoneNumber={formik.values.phoneNumber} handleChange={formik.handleChange} />
-        }
-        else{
+        } else if (activeStep === 2) {
             return <Address streetName={formik.values.streetName} state={formik.values.state} city={formik.values.city} pinCode={formik.values.pinCode} handleChange={formik.handleChange} />
+        } else {
+            return <div className="login-form">
+                        <h1>Details taken</h1>
+                    </div>
         }
+    }
+
+    const renderButtons = () => {
+        if (activeStep > 2) {
+            return '';
+        }
+        return <div className="nav-btns">
+            <button className="nav-btn" onClick={handleBack} disabled={activeStep === 0}>Previous</button>
+            {activeStep === 2
+            ? <button className="nav-btn" onClick={formik.handleSubmit}>Submit</button> 
+            : <button className="nav-btn" 
+                onClick={handleNext} 
+                disabled={isEmpty(formik.errors) && formik.touched.email && formik.touched.password ? false : true}
+                >Next</button>}
+        </div>
     }
     return(
         <div className="login-container">
@@ -69,11 +83,8 @@ function Signup(){
                     ))}
                     </Stepper>
                 </div>
-                {renderForm()}
-                <div className="nav-btns">
-                    <button className="nav-btn" onClick={handleBack} disabled={activeStep === 0}>Previous</button>
-                    {activeStep === 2?<button className="nav-btn" onSubmit={formik.handleSubmit}>Submit</button>:<button className="nav-btn" onClick={handleNext} disabled={isEmpty(formik.errors) && formik.touched.email && formik.touched.password?false:true}>Next</button>}
-                </div>
+                { renderForm() }
+                { renderButtons() }
             </div>
         </div>
     )

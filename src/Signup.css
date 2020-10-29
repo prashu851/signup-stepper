@@ -9,7 +9,9 @@ text-decoration: none;
     align-items: center;
     justify-content: center;
 }
-
+h1{
+    color: white;
+}
 .login-details {
     width: 25rem;
     display: flex;
